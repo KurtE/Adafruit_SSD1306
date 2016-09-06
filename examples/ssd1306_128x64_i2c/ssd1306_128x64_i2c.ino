@@ -15,19 +15,19 @@ Written by Limor Fried/Ladyada  for Adafruit Industries.
 BSD license, check license.txt for more information
 All text above, and the splash screen must be included in any redistribution
 *********************************************************************/
-
 #include <SPI.h>
-#include <Wire.h>
+//#include <Wire.h>
+#include <i2c_t3.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
-#define OLED_RESET 4
+#define OLED_RESET 6 
 
 // Define your displays I2C address.  Only define one. 
-#define SSD_I2C_ADDR 0x3D   // On some displays may be marked 0x7a as 0x7a>>1 = 0x3d
-//#define SSD_I2C_ADDR 0x3C   // on some displays may be marked 0x78 as 0x78>>1 = 0x3c 
+//#define SSD_I2C_ADDR 0x3D   // On some displays may be marked 0x7a as 0x7a>>1 = 0x3d
+#define SSD_I2C_ADDR 0x3C   // on some displays may be marked 0x78 as 0x78>>1 = 0x3c 
 
-Adafruit_SSD1306 display(OLED_RESET);
+Adafruit_SSD1306 display(OLED_RESET, Wire);
 
 #define NUMFLAKES 10
 #define XPOS 0
