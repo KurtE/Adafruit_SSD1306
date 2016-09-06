@@ -20,7 +20,7 @@ All text above, and the splash screen must be included in any redistribution
 
 #if ARDUINO >= 100
  #include "Arduino.h"
- #define WIRE_WRITE Wire.write
+ #define WIRE_WRITE _WireD.write
 #else
  #include "WProgram.h"
   #define WIRE_WRITE Wire.send
@@ -66,8 +66,8 @@ All text above, and the splash screen must be included in any redistribution
     SSD1306_96_16
 
     -----------------------------------------------------------------------*/
-//   #define SSD1306_128_64
-   #define SSD1306_128_32
+   #define SSD1306_128_64
+//   #define SSD1306_128_32
 //   #define SSD1306_96_16
 /*=========================================================================*/
 
@@ -141,7 +141,8 @@ class Adafruit_SSD1306 : public Adafruit_GFX {
  public:
   Adafruit_SSD1306(int8_t SID, int8_t SCLK, int8_t DC, int8_t RST, int8_t CS);
   Adafruit_SSD1306(int8_t DC, int8_t RST, int8_t CS);
-  Adafruit_SSD1306(int8_t RST = -1);
+
+  Adafruit_SSD1306(int8_t RST = -1, i2c_t3 &WireD = Wire);
 
   void begin(uint8_t switchvcc = SSD1306_SWITCHCAPVCC, uint8_t i2caddr = SSD1306_I2C_ADDRESS, bool reset=true);
   void ssd1306_command(uint8_t c);
@@ -169,6 +170,7 @@ class Adafruit_SSD1306 : public Adafruit_GFX {
   void fastSPIwrite(uint8_t c);
 
   boolean hwSPI;
+    i2c_t3      &_WireD;      // Reference to which Wire Buss object we are using...
 #ifdef HAVE_PORTREG
   PortReg *mosiport, *clkport, *csport, *dcport;
   PortMask mosipinmask, clkpinmask, cspinmask, dcpinmask;
