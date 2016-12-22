@@ -203,13 +203,13 @@ void Adafruit_SSD1306::begin(uint8_t vccstate, uint8_t i2caddr, bool reset) {
   else
   {
     // I2C Init
-    Wire.begin();
+    A1306WIRE.begin();
 #ifdef __SAM3X8E__
     // Force 400 KHz I2C, rawr! (Uses pins 20, 21 for SDA, SCL)
     TWI1->TWI_CWGR = 0;
     TWI1->TWI_CWGR = ((VARIANT_MCK / (2 * 400000)) - 4) * 0x101;
 #elif ARDUINO >= 157
-    Wire.setClock(400000UL); // Set I2C frequency to 400kHz
+    A1306WIRE.setClock(400000UL); // Set I2C frequency to 400kHz
 #endif
   }
   if ((reset) && (rst >= 0)) {
@@ -322,10 +322,10 @@ void Adafruit_SSD1306::ssd1306_command(uint8_t c) {
   {
     // I2C
     uint8_t control = 0x00;   // Co = 0, D/C = 0
-    Wire.beginTransmission(_i2caddr);
-    Wire.write(control);
-    Wire.write(c);
-    Wire.endTransmission();
+    A1306WIRE.beginTransmission(_i2caddr);
+    A1306WIRE.write(control);
+    A1306WIRE.write(c);
+    A1306WIRE.endTransmission();
   }
 }
 
@@ -471,14 +471,14 @@ void Adafruit_SSD1306::display(void) {
     // I2C
     for (uint16_t i=0; i<(SSD1306_LCDWIDTH*SSD1306_LCDHEIGHT/8); i++) {
       // send a bunch of data in one xmission
-      Wire.beginTransmission(_i2caddr);
+      A1306WIRE.beginTransmission(_i2caddr);
       WIRE_WRITE(0x40);
       for (uint8_t x=0; x<16; x++) {
         WIRE_WRITE(buffer[i]);
         i++;
       }
       i--;
-      Wire.endTransmission();
+      A1306WIRE.endTransmission();
     }
 #ifdef TWBR
     TWBR = twbrbackup;
