@@ -18,12 +18,14 @@ All text above, and the splash screen must be included in any redistribution
 #ifndef _Adafruit_SSD1306_H_
 #define _Adafruit_SSD1306_H_
 
+#define A1306WIRE Wire
+
 #if ARDUINO >= 100
  #include "Arduino.h"
- #define WIRE_WRITE Wire.write
+ #define WIRE_WRITE A1306WIRE.write
 #else
  #include "WProgram.h"
-  #define WIRE_WRITE Wire.send
+  #define WIRE_WRITE A1306WIRE.send
 #endif
 
 #if defined(__SAM3X8E__)
@@ -66,8 +68,8 @@ All text above, and the splash screen must be included in any redistribution
     SSD1306_96_16
 
     -----------------------------------------------------------------------*/
-//   #define SSD1306_128_64
-   #define SSD1306_128_32
+   #define SSD1306_128_64
+//   #define SSD1306_128_32
 //   #define SSD1306_96_16
 /*=========================================================================*/
 
