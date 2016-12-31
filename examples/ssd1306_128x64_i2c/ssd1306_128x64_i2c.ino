@@ -21,11 +21,11 @@ All text above, and the splash screen must be included in any redistribution
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
-#define OLED_RESET 4
+#define OLED_RESET 5  // Warning 4 screws up Wire2!!!
 
 // Define your displays I2C address.  Only define one. 
-#define SSD_I2C_ADDR 0x3D   // On some displays may be marked 0x7a as 0x7a>>1 = 0x3d
-//#define SSD_I2C_ADDR 0x3C   // on some displays may be marked 0x78 as 0x78>>1 = 0x3c 
+//#define SSD_I2C_ADDR 0x3D   // On some displays may be marked 0x7a as 0x7a>>1 = 0x3d
+#define SSD_I2C_ADDR 0x3C   // on some displays may be marked 0x78 as 0x78>>1 = 0x3c 
 
 Adafruit_SSD1306 display(OLED_RESET);
 
