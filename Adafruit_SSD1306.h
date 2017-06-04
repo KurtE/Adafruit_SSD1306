@@ -66,8 +66,8 @@ All text above, and the splash screen must be included in any redistribution
     SSD1306_96_16
 
     -----------------------------------------------------------------------*/
-   #define SSD1306_128_64
-//   #define SSD1306_128_32
+//#define SSD1306_128_64
+   #define SSD1306_128_32
 //   #define SSD1306_96_16
 /*=========================================================================*/
 
@@ -139,10 +139,10 @@ All text above, and the splash screen must be included in any redistribution
 
 class Adafruit_SSD1306 : public Adafruit_GFX {
  public:
-  Adafruit_SSD1306(int8_t SID, int8_t SCLK, int8_t DC, int8_t RST, int8_t CS);
-  Adafruit_SSD1306(int8_t DC, int8_t RST, int8_t CS);
+  Adafruit_SSD1306(int8_t SID, int8_t SCLK, int8_t DC, int8_t RST, int8_t CS, SPIClass &spi = SPI, uint8_t height=SSD1306_LCDHEIGHT);
+  Adafruit_SSD1306(int8_t DC, int8_t RST, int8_t CS, SPIClass &spi = SPI, uint8_t height=SSD1306_LCDHEIGHT);
 
-  Adafruit_SSD1306(int8_t RST = -1, TwoWire &WireD = Wire);
+  Adafruit_SSD1306(int8_t RST = -1, TwoWire &WireD = Wire, uint8_t height=SSD1306_LCDHEIGHT);
 
   void begin(uint8_t switchvcc = SSD1306_SWITCHCAPVCC, uint8_t i2caddr = SSD1306_I2C_ADDRESS, bool reset=true);
   void ssd1306_command(uint8_t c);
@@ -165,12 +165,15 @@ class Adafruit_SSD1306 : public Adafruit_GFX {
   virtual void drawFastVLine(int16_t x, int16_t y, int16_t h, uint16_t color);
   virtual void drawFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color);
 
- private:
+ protected:
   int8_t _i2caddr, _vccstate, sid, sclk, dc, rst, cs;
+  // uint8_t _buffer[/*SSD1306_LCDHEIGHT*/ 64 * SSD1306_LCDWIDTH / 8];
+  uint8_t *_buffer;   // Keep a pointer to it. 
   void fastSPIwrite(uint8_t c);
 
   boolean hwSPI;
     TwoWire      &_WireD;      // Reference to which Wire Buss object we are using...
+    SPIClass     &_spi;         // reference to which SPI object to use. 
 #ifdef HAVE_PORTREG
   PortReg *mosiport, *clkport, *csport, *dcport;
   PortMask mosipinmask, clkpinmask, cspinmask, dcpinmask;
@@ -178,6 +181,32 @@ class Adafruit_SSD1306 : public Adafruit_GFX {
 
   inline void drawFastVLineInternal(int16_t x, int16_t y, int16_t h, uint16_t color) __attribute__((always_inline));
   inline void drawFastHLineInternal(int16_t x, int16_t y, int16_t w, uint16_t color) __attribute__((always_inline));
+
+};
+
+// Setup for 64 bit size...
+class Adafruit_SSD1306_64 : public Adafruit_SSD1306 {
+ public:
+  Adafruit_SSD1306_64(int8_t SID, int8_t SCLK, int8_t DC, int8_t RST, int8_t CS, SPIClass &spi = SPI);
+  Adafruit_SSD1306_64(int8_t DC, int8_t RST, int8_t CS, SPIClass &spi = SPI);
+
+  Adafruit_SSD1306_64(int8_t RST = -1, TwoWire &WireD = Wire);
+
+ protected:
+  uint8_t _buffer_data[SSD1306_LCDWIDTH * 64 / 8];
+
+};
+
+// Setup for 32 bit size
+class Adafruit_SSD1306_32 : public Adafruit_SSD1306 {
+ public:
+  Adafruit_SSD1306_32(int8_t SID, int8_t SCLK, int8_t DC, int8_t RST, int8_t CS, SPIClass &spi = SPI);
+  Adafruit_SSD1306_32(int8_t DC, int8_t RST, int8_t CS, SPIClass &spi = SPI);
+
+  Adafruit_SSD1306_32(int8_t RST = -1, TwoWire &WireD = Wire);
+
+ protected:
+  uint8_t _buffer_data[SSD1306_LCDWIDTH * 32 / 8];
 
 };
 
