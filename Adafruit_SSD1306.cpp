@@ -149,7 +149,7 @@ Adafruit_SSD1306::Adafruit_SSD1306(int8_t SID, int8_t SCLK, int8_t DC, int8_t RS
   sclk = SCLK;
   sid = SID;
   hwSPI = false;
-  _buffer = nullptr;
+  _buffer = (uint8_t*)0;
 
 }
 
@@ -160,7 +160,7 @@ Adafruit_SSD1306::Adafruit_SSD1306(int8_t DC, int8_t RST, int8_t CS, SPIClass &s
   rst = RST;
   cs = CS;
   hwSPI = true;
-  _buffer = nullptr;
+  _buffer = (uint8_t*)0;
 }
 
 // initializer for I2C - we only indicate the reset pin!
@@ -168,7 +168,7 @@ Adafruit_SSD1306::Adafruit_SSD1306(int8_t reset, TwoWire &WireD, uint8_t height 
 Adafruit_GFX(SSD1306_LCDWIDTH, height), _WireD(WireD), _spi(SPI) {
   sclk = dc = cs = sid = -1;
   rst = reset;
-  _buffer = nullptr;
+  _buffer = (uint8_t*)0;
 }
 
 
@@ -176,7 +176,7 @@ void Adafruit_SSD1306::begin(uint8_t vccstate, uint8_t i2caddr, bool reset) {
   _vccstate = vccstate;
   _i2caddr = i2caddr;
 
-  if (_buffer == nullptr) {
+  if (_buffer == (uint8_t*)0) {
     _buffer = (uint8_t*)malloc(SSD1306_LCDWIDTH*_height/8);
   }
 

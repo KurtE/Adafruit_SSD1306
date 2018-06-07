@@ -35,6 +35,9 @@ All text above, and the splash screen must be included in any redistribution
 #elif defined(ESP8266) || defined(ARDUINO_STM32_FEATHER)
   typedef volatile uint32_t PortReg;
   typedef uint32_t PortMask;
+#elif defined(__OPENCR__) 
+  // Dest not have PORTREG
+  #define nullptr (void*)0
 #else
   typedef volatile uint8_t PortReg;
   typedef uint8_t PortMask;
@@ -66,8 +69,8 @@ All text above, and the splash screen must be included in any redistribution
     SSD1306_96_16
 
     -----------------------------------------------------------------------*/
-//#define SSD1306_128_64
-   #define SSD1306_128_32
+#define SSD1306_128_64
+//   #define SSD1306_128_32
 //   #define SSD1306_96_16
 /*=========================================================================*/
 
